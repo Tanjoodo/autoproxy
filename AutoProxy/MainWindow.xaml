@@ -1,0 +1,16 @@
+﻿<Window x:Class="AutoProxy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <ListView x:Name="rule_list" HorizontalAlignment="Left" Height="192" Margin="0,127,0,0" VerticalAlignment="Top" Width="517">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="SSID" Width="240" DisplayMemberBinding="{Binding SSID}" />
+                    <GridViewColumn Header="Proxy" Width="120" DisplayMemberBinding="{Binding Proxy.Host}" />
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
