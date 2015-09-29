@@ -43,8 +43,8 @@ namespace AutoProxy
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error while initializing WlanClient:" + e.ToString()); //TODO: more graceful exception handling.
-                Environment.Exit(1);
+                MessageBox.Show("Error while initializing WlanClient (I probably can't see your Wifi interface):\n" + e.ToString()); //TODO: more graceful exception handling.
+                return;
             }
             
             foreach(var inter in wlan.Interfaces)
