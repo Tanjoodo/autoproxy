@@ -3,14 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ListView x:Name="rule_list" HorizontalAlignment="Left" Height="192" Margin="0,127,0,0" VerticalAlignment="Top" Width="517">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="62*"/>
+            <ColumnDefinition Width="455*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="rule_list" HorizontalAlignment="Left" Height="299" VerticalAlignment="Top" Width="517" Margin="0,20,0,0" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="SSID" Width="240" DisplayMemberBinding="{Binding SSID}" />
                     <GridViewColumn Header="Proxy" Width="120" DisplayMemberBinding="{Binding Proxy.Host}" />
-                    
                 </GridView>
             </ListView.View>
         </ListView>
+        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="507" RenderTransformOrigin="-0.127,0.346" Grid.ColumnSpan="2">
+            <MenuItem Header="Rules">
+                <MenuItem Header="Add rule" Click="click_AddRule" />
+            </MenuItem>
+
+        </Menu>
     </Grid>
 </Window>

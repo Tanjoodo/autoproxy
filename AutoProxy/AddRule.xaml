@@ -1,0 +1,21 @@
+﻿<Window x:Class="AutoProxy.AddRule"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Rule" Height="97.338" Width="540.441">
+    <Grid>
+        <Grid.ColumnDefinitions>
+         
+        </Grid.ColumnDefinitions>
+        <Label Content="SSID" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.143,0.361" Width="44"/>
+        <TextBox x:Name="TextBoxSsid" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.52,0.504" Margin="44,3,0,0"/>
+        <Label Content="Proxy
+               " HorizontalAlignment="Left" Margin="1,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.212,0.23" Width="43"/>
+        <TextBox x:Name="TextBoxProxy" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.829,1.804" Margin="44,29,0,0"/>
+        <CheckBox x:Name="CheckBoxDefault" Content="Default" HorizontalAlignment="Left" Margin="174,6,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.55,2.2" Checked="checked_def" Unchecked="unchecked_def"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="447,29,0,0" Click="click_Cancel"/>
+        <Button Content="Add rule" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="367,29,0,0" Click="click_AddRule"/>
+        <Label Content="Port" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="4.895,1.5" Margin="174,26,0,0"/>
+        <TextBox x:Name="TextBoxPort" HorizontalAlignment="Left" Height="24" Margin="206,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="0"/>
+        <CheckBox Content="Enabled" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="239,6,0,0" Checked="checked_enabled" Unchecked="unchecked_enabled" IsChecked="True"/>
+    </Grid>
+</Window>

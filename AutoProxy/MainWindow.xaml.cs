@@ -49,9 +49,29 @@ namespace AutoProxy
             
             foreach(var inter in wlan.Interfaces)
             {
-                var ssid = inter.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
+                Wlan.Dot11Ssid ssid;
+                try 
+                {
+                    ssid = inter.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                    return;
+                }
+
                 ssids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
             }
+        }
+
+        private void click_AddRule(object sender, RoutedEventArgs e)
+        {
+            AddRule window = new AddRule();
+            ProxyRule newrule = null;
+            window.ShowDialog();
+            newrule = window.GetRule();
+            
+            //TODO: Add rule to DB
         }
     }
 }
