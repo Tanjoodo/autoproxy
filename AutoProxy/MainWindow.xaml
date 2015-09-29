@@ -3,10 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="62*"/>
-            <ColumnDefinition Width="455*"/>
-        </Grid.ColumnDefinitions>
         <ListView x:Name="rule_list" HorizontalAlignment="Left" Height="299" VerticalAlignment="Top" Width="517" Margin="0,20,0,0" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
