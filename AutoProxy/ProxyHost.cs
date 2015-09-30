@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoProxy
 {
+    [Serializable]
     public class ProxyHost
     {
         private string _host; //contains IP and port

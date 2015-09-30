@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 using NativeWifi;
 
@@ -27,12 +29,35 @@ namespace AutoProxy
         public MainWindow()
         {
             InitializeComponent();
-
-            rule_list.ItemsSource = rules;
-            UpdateSSIDs();
             
+            //TODO:
+            /* Look for rules file
+             * If not found create an empty one
+             * At the end of the program write rules to disk
+             */
+            if (!File.Exists("rules.bin"))
+            {
+                var ostream = new FileStream("rules.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+                ostream.Close();
+            }
+            
+            var formatter = new BinaryFormatter();
+            var stream = new System.IO.FileStream("rules.bin", FileMode.Open, FileAccess.Read);
+            rules = (List<ProxyRule>)formatter.Deserialize(stream);
+            stream.Close();
+            rule_list.ItemsSource = rules;
+            //TODO: Periodically check for SSIDs and change proxy accordingly
+            UpdateSSIDs();
+
         }
 
+        void WriteRules()
+        {
+            var ostream = new FileStream("rules.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(ostream, rules);
+            ostream.Close();
+        }
         void UpdateSSIDs()
         {
             ssids.Clear();
@@ -70,7 +95,8 @@ namespace AutoProxy
             ProxyRule newrule = null;
             window.ShowDialog();
             newrule = window.GetRule();
-            
+            rules.Add(newrule);
+            WriteRules();
             //TODO: Add rule to DB
         }
     }

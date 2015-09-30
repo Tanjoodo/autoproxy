@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoProxy
 {
+    [Serializable]
     public class ProxyRule
     {
         private bool _enabled;
