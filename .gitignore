@@ -1,2 +1,4 @@
 AutoProxy/bin/*
 AutoProxy/obj/*
+*.suo
+*.user

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace AutoProxy
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<ProxyRule> rules = new List<ProxyRule>();
+        ObservableCollection<ProxyRule> rules = new ObservableCollection<ProxyRule>();
         List<string> ssids = new List<string>();
         public MainWindow()
         {
@@ -38,12 +39,14 @@ namespace AutoProxy
             if (!File.Exists("rules.bin"))
             {
                 var ostream = new FileStream("rules.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+                var oformatter = new BinaryFormatter();
+                oformatter.Serialize(ostream, rules);
                 ostream.Close();
             }
             
             var formatter = new BinaryFormatter();
             var stream = new System.IO.FileStream("rules.bin", FileMode.Open, FileAccess.Read);
-            rules = (List<ProxyRule>)formatter.Deserialize(stream);
+            rules = (ObservableCollection<ProxyRule>)formatter.Deserialize(stream);
             stream.Close();
             rule_list.ItemsSource = rules;
             //TODO: Periodically check for SSIDs and change proxy accordingly
@@ -97,6 +100,7 @@ namespace AutoProxy
             newrule = window.GetRule();
             rules.Add(newrule);
             WriteRules();
+            
             //TODO: Add rule to DB
         }
     }
