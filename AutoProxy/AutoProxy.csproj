@@ -75,6 +75,7 @@
     <Compile Include="AddRule.xaml.cs">
       <DependentUpon>AddRule.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Poller.cs" />
     <Compile Include="ProxyHost.cs" />
     <Compile Include="ProxyRule.cs" />
     <Page Include="AddRule.xaml">
