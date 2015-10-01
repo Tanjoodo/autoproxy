@@ -1,14 +1,11 @@
-#Auto Proxy
-===========
+# Auto Proxy
 
 This project aims to provide a tool that switches proxy settings automagically based on the SSID(s) you're connected to.
 
-#Dependencies
-=============
+## Dependencies
 
 This project requires Managed Wifi API (https://managedwifi.codeplex.com).
 
-#License
-========
+## License
 
 MIT license, more info in LICENSE file.
