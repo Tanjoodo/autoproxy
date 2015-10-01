@@ -76,7 +76,7 @@ namespace AutoProxy
                     else
                         DisableProxy();
 
-                    _last_ssid = _ssids[0]; //TODO: don't assume you're only connected to one SSID. 
+                    _last_ssid = _ssids[0]; //TODO: don't assume you're only connected to one SSID. Do not assume you're connected to any SSIDs 
                 }
             }
         }
