@@ -21,7 +21,7 @@ namespace AutoProxy
         public const int INTERNET_OPTION_REFRESH = 37;
         bool settingsReturn, refreshReturn;
         RegistryKey RegKey = Registry.CurrentUser.
-                OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
+                OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
         
         private ObservableCollection<ProxyRule> _rules;
         private List<string> _ssids = new List<string>();
