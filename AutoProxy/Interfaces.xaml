@@ -1,0 +1,10 @@
+﻿<Window x:Class="AutoProxy.Interfaces"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Please choose a wireless card to use" Height="128.425" Width="476.712">
+    <Grid>
+        <ComboBox x:Name="ComboBox_interfaces" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="449"/>
+        <Button Content="Ok" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="384,67,0,0" Click="Button_Click" />
+
+    </Grid>
+</Window>

@@ -75,10 +75,17 @@
     <Compile Include="AddRule.xaml.cs">
       <DependentUpon>AddRule.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces.xaml.cs">
+      <DependentUpon>Interfaces.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Poller.cs" />
     <Compile Include="ProxyHost.cs" />
     <Compile Include="ProxyRule.cs" />
     <Page Include="AddRule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

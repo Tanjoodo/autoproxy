@@ -22,30 +22,36 @@ namespace AutoProxy
         bool settingsReturn, refreshReturn;
         RegistryKey RegKey = Registry.CurrentUser.
                 OpenSubKey(@"Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
+        //TODO: Pair each poller with an iterface
         
         private ObservableCollection<ProxyRule> _rules;
-        private List<string> _ssids = new List<string>();
+        private bool _rules_changed = false;
+        private string _ssid = "";
         private string _last_ssid = "";
+        private string _interface = null;
 
         private Object l = new Object();
-        public Poller(ref ObservableCollection<ProxyRule>  Rules)
+        public Poller(ref ObservableCollection<ProxyRule>  Rules, string Interface)
         {
             _rules = Rules;
             _rules.CollectionChanged += RulesChanged;
-            
+            _interface = Interface;
         }
         public void RulesChanged(Object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             _rules = (ObservableCollection<ProxyRule>)sender;
+            _rules_changed = true;
         }
         public void StartPolling()
         {
             var poll_timer = new System.Timers.Timer(1000);
             poll_timer.Elapsed += TimerEvent;
-            poll_timer.Start();     
+            poll_timer.Start();
         }
         public void TimerEvent(Object source, ElapsedEventArgs e)
         {
+            if (_interface == null)
+                return;
             var thread = new Thread(this.Poll);
             thread.Start();
             thread.Join();
@@ -57,18 +63,10 @@ namespace AutoProxy
             //If found apply rule
             lock (l)
             {
-                UpdateSSIDs();
+                UpdateSSID();
 
                 ProxyRule rule = null;
-                bool ssid_changed = true;
-                foreach (var x in _ssids)
-                    if (_last_ssid == x)
-                    {
-                        ssid_changed = false;
-                        break;
-                    }
-
-                if (ssid_changed)
+                if (_ssid != _last_ssid || _rules_changed)
                 {
                     rule = FindRule();
                     if (null != rule)
@@ -76,17 +74,17 @@ namespace AutoProxy
                     else
                         DisableProxy();
 
-                    _last_ssid = _ssids[0]; //TODO: don't assume you're only connected to one SSID. Do not assume you're connected to any SSIDs 
+                    _last_ssid = _ssid;
+                    _rules_changed = false;
                 }
             }
         }
 
         private ProxyRule FindRule()
         {
-            foreach (var x in _ssids)
-                foreach (var y in _rules)
-                    if (y.SSID == x)
-                        return y;
+            foreach (var y in _rules)
+                if (y.SSID == _ssid)
+                    return y;
             return null;
         }
 
@@ -112,34 +110,32 @@ namespace AutoProxy
             MessageBox.Show("Disabled Proxy");
         }
 
-        void UpdateSSIDs()
+        void UpdateSSID()
         {
-            if (_ssids.Count > 0) _ssids.Clear();
             WlanClient wlan = null;
             try
             {
                 wlan = new WlanClient();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("Error while initializing WlanClient (I probably can't see your Wifi interface):\n" + e.ToString()); //TODO: more graceful exception handling.
                 return;
             }
-
             foreach (var inter in wlan.Interfaces)
             {
-                Wlan.Dot11Ssid ssid;
-                try
+                if (inter.InterfaceDescription == _interface)
                 {
-                    ssid = inter.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
+                    try
+                    {
+                        _ssid = new String(Encoding.ASCII.GetChars(inter.CurrentConnection.wlanAssociationAttributes.dot11Ssid.SSID, 0,
+                            (int)inter.CurrentConnection.wlanAssociationAttributes.dot11Ssid.SSIDLength));
+                    }
+                    catch (Exception)
+                    {
+                        _ssid = null; //not connected to a network
+                    }
                     return;
                 }
-
-                _ssids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
             }
         }
     }

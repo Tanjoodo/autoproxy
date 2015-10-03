@@ -26,28 +26,41 @@ namespace AutoProxy
     public partial class MainWindow : Window
     {
         ObservableCollection<ProxyRule> rules = new ObservableCollection<ProxyRule>();
-        List<string> ssids = new List<string>();
         Thread poller;
         public MainWindow()
         {
             InitializeComponent();
             
             if (!File.Exists("rules.bin"))
-            {
-                var ostream = new FileStream("rules.bin", FileMode.Create, FileAccess.Write, FileShare.None);
-                var oformatter = new BinaryFormatter();
-                oformatter.Serialize(ostream, rules);
-                ostream.Close();
-            }
-            
+                WriteRules();
+                       
             var formatter = new BinaryFormatter();
             var stream = new System.IO.FileStream("rules.bin", FileMode.Open, FileAccess.Read);
             rules = (ObservableCollection<ProxyRule>)formatter.Deserialize(stream);
             stream.Close();
             rule_list.ItemsSource = rules;
-            //TODO: Periodically check for SSIDs and change proxy accordingly
-            poller = new Thread(new Poller(ref rules).StartPolling);
-            poller.Start();
+            //TODO: Show what SSID it thinks it's connected to on the window
+            string inter;
+            var client = new WlanClient();
+            if(client.Interfaces.Count() > 1)
+            {
+                var inters = new Interfaces();
+                inters.ShowDialog();
+                inter = inters.GetInterface();
+            }
+            else if (client.Interfaces.Count() == 1)
+            {
+                inter = client.Interfaces[0].InterfaceDescription;
+            }
+            else
+            {
+                inter = null;
+            }
+
+            if (inter != null)
+            {
+                StartPoller(inter);
+            }
         }
 
         void WriteRules()
@@ -58,7 +71,6 @@ namespace AutoProxy
             ostream.Close();
         }
         
-
         private void click_AddRule(object sender, RoutedEventArgs e)
         {
             AddRule window = new AddRule();
@@ -73,6 +85,12 @@ namespace AutoProxy
         {
             poller.Abort();
             WriteRules();
+        }
+
+        private void StartPoller(string inter)
+        {
+            poller = new Thread(new Poller(ref rules, inter).StartPolling);
+            poller.Start();
         }
     }
 }
