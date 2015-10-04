@@ -1,4 +1,6 @@
 AutoProxy/bin/*
 AutoProxy/obj/*
+packages/*
 *.suo
 *.user
+*.*~

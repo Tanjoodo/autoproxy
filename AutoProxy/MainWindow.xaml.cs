@@ -17,7 +17,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Threading;
 using NativeWifi;
-
+using Hardcodet.Wpf.TaskbarNotification;
 namespace AutoProxy
 {
     /// <summary>
@@ -27,6 +27,7 @@ namespace AutoProxy
     {
         ObservableCollection<ProxyRule> rules = new ObservableCollection<ProxyRule>();
         Thread poller;
+        public static TaskbarIcon tb_icon = new TaskbarIcon();
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +39,9 @@ namespace AutoProxy
             var stream = new System.IO.FileStream("rules.bin", FileMode.Open, FileAccess.Read);
             rules = (ObservableCollection<ProxyRule>)formatter.Deserialize(stream);
             stream.Close();
+            
+            tb_icon.Icon = new System.Drawing.Icon("favicon.ico");
+            tb_icon.TrayMouseDoubleClick += Tray_DoubleClick;
             rule_list.ItemsSource = rules;
             //TODO: Show what SSID it thinks it's connected to on the window
             string inter;
@@ -91,6 +95,24 @@ namespace AutoProxy
         {
             poller = new Thread(new Poller(ref rules, inter).StartPolling);
             poller.Start();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == System.Windows.WindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+            }
+
+            if (this.WindowState == System.Windows.WindowState.Normal)
+            {
+                this.ShowInTaskbar = true;
+            }
+        }
+
+        private void Tray_DoubleClick(object sender, EventArgs e)
+        {
+            this.WindowState = System.Windows.WindowState.Normal;
         }
     }
 }

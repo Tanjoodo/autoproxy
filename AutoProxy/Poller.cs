@@ -97,8 +97,8 @@ namespace AutoProxy
         {
             RegKey.SetValue("ProxyEnable", 1);
             RegKey.SetValue("ProxyServer", host.Host);
-            UpdateSettings();
-            MessageBox.Show("Changed proxy to " + host.Host);
+            UpdateSettings();            
+            MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Changed proxy to: " + host.Host, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
 
         }
 
@@ -106,7 +106,7 @@ namespace AutoProxy
         {
             RegKey.SetValue("ProxyEnable", 0);
             UpdateSettings();
-            MessageBox.Show("Disabled Proxy");
+            MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Proxy disabled.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
         }
 
         void UpdateSSID()

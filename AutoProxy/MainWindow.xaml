@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AutoProxy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" Closed="Window_Closed">
+        Title="MainWindow" Height="350" Width="525" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Grid>
         <ListView x:Name="rule_list" HorizontalAlignment="Left" Height="299" VerticalAlignment="Top" Width="517" Margin="0,20,0,0" Grid.ColumnSpan="2">
             <ListView.View>
@@ -15,7 +15,8 @@
             <MenuItem Header="Rules">
                 <MenuItem Header="Add rule" Click="click_AddRule" />
             </MenuItem>
-
         </Menu>
+        
+        
     </Grid>
 </Window>
