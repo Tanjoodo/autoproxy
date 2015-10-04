@@ -25,9 +25,7 @@ namespace AutoProxy
         //TODO: Pair each poller with an iterface
         
         private ObservableCollection<ProxyRule> _rules;
-        private bool _rules_changed = false;
-        private string _ssid = "";
-        private string _last_ssid = "";
+        private string _ssid = "";        
         private string _interface = null;
 
         private Object l = new Object();
@@ -40,44 +38,45 @@ namespace AutoProxy
         public void RulesChanged(Object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             _rules = (ObservableCollection<ProxyRule>)sender;
-            _rules_changed = true;
         }
         public void StartPolling()
         {
-            var poll_timer = new System.Timers.Timer(1000);
+            var poll_timer = new System.Timers.Timer(100);
             poll_timer.Elapsed += TimerEvent;
-            poll_timer.Start();
+            poll_timer.Start();         
         }
         public void TimerEvent(Object source, ElapsedEventArgs e)
         {
             if (_interface == null)
                 return;
-            var thread = new Thread(this.Poll);
+            var thread = new Thread(this.Poll); 
             thread.Start();
             thread.Join();
         }
         private void Poll()
         {
-            //Update SSIDs
-            //Compare SSID to rules
-            //If found apply rule
-            lock (l)
+            if (Monitor.TryEnter(l)) //Allow only one thread to enter this section at a time, should be better than lock() because as far as I understand it,
+                                     //lock will queue all the threads, and that would cause problems.
             {
                 UpdateSSID();
 
-                ProxyRule rule = null;
-                if (_ssid != _last_ssid || _rules_changed)
-                {
-                    rule = FindRule();
-                    if (null != rule)
-                        ChangeProxy(rule.Proxy);
-                    else
-                        DisableProxy();
 
-                    _last_ssid = _ssid;
-                    _rules_changed = false;
+                var rule = FindRule();
+                if (rule != null)
+                {
+                    if ((string)RegKey.GetValue("ProxyServer") != rule.Proxy.Host || (int)RegKey.GetValue("ProxyEnable") != 1)
+                        ChangeProxy(rule.Proxy);
                 }
+                else
+                {
+                    if ((int)RegKey.GetValue("ProxyEnable") != 0)
+                        DisableProxy();
+                }
+
+                Monitor.Exit(l);
             }
+            else
+                return;
         }
 
         private ProxyRule FindRule()
