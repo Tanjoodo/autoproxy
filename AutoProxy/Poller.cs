@@ -97,8 +97,11 @@ namespace AutoProxy
         {
             RegKey.SetValue("ProxyEnable", 1);
             RegKey.SetValue("ProxyServer", host.Host);
-            UpdateSettings();            
-            MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Changed proxy to: " + host.Host, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            UpdateSettings();
+            if (_ssid == null || _ssid == "")
+                MainWindow.tb_icon.ShowBalloonTip("Disconnected from Wifi", "Changed proxy to: " + host.Host, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            else
+                MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Changed proxy to: " + host.Host, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
 
         }
 
@@ -106,7 +109,10 @@ namespace AutoProxy
         {
             RegKey.SetValue("ProxyEnable", 0);
             UpdateSettings();
-            MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Proxy disabled.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            if (_ssid == null || _ssid == "")            
+                MainWindow.tb_icon.ShowBalloonTip("Disconnected from Wifi", "Proxy disabled", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);            
+            else
+                MainWindow.tb_icon.ShowBalloonTip("Now connected to: " + _ssid, "Proxy disabled.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
         }
 
         void UpdateSSID()
