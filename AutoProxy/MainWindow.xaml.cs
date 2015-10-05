@@ -34,14 +34,15 @@ namespace AutoProxy
             
             if (!File.Exists("rules.bin"))
                 WriteRules();
-                       
+            
             var formatter = new BinaryFormatter();
             var stream = new System.IO.FileStream("rules.bin", FileMode.Open, FileAccess.Read);
             rules = (ObservableCollection<ProxyRule>)formatter.Deserialize(stream);
             stream.Close();
-            
+        
             tb_icon.Icon = new System.Drawing.Icon("favicon.ico");
             tb_icon.TrayMouseDoubleClick += Tray_DoubleClick;
+            this.StateChanged += Window_StateChanged;
             rule_list.ItemsSource = rules;
             //TODO: Show what SSID it thinks it's connected to on the window
             string inter;
