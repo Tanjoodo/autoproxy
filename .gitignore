@@ -4,4 +4,4 @@ packages/*
 *.suo
 *.user
 *.*~
-*.swap
+*.swp
