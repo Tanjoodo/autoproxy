@@ -1,7 +1,9 @@
 AutoProxy/bin/*
 AutoProxy/obj/*
+!AutoProxy/bin/Debug/*.ico
 packages/*
 *.suo
 *.user
 *.*~
 *.swp
+
