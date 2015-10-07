@@ -4,7 +4,10 @@ This project aims to provide a tool that switches proxy settings automagically b
 
 ## Dependencies
 
-This project requires Managed Wifi API (https://managedwifi.codeplex.com) and WPF NotifyIcon (http://www.hardcodet.net/wpf-notifyicon).
+This project requires:
+
+* Managed Wifi API (https://managedwifi.codeplex.com, make sure you download the latest version, not the "recommended download".
+* WPF NotifyIcon (http://www.hardcodet.net/wpf-notifyicon).
 
 ## License
 
