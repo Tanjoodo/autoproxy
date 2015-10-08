@@ -82,7 +82,7 @@ namespace AutoProxy
             ProxyRule newrule = null;
             window.ShowDialog();
             newrule = window.GetRule();
-            rules.Add(newrule);
+            if (newrule != null) rules.Add(newrule);
             WriteRules();                        
         }
 

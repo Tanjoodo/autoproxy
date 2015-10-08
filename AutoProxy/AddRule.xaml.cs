@@ -28,6 +28,7 @@ namespace AutoProxy
         private void click_Cancel(object sender, RoutedEventArgs e)
         {
             returned_rule = null;
+            Close();
         }
 
         public ProxyRule GetRule()
