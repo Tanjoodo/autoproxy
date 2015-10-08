@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
-using System.Windows;
 using System.Timers;
 using System.Threading;
 using NativeWifi;
