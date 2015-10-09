@@ -25,7 +25,7 @@ namespace AutoProxy
 
         public string Host
         {
-            get { return _ip + _port.ToString(); }
+            get { return _ip + ':' + _port.ToString(); }
         }
         public string Ip
         {
