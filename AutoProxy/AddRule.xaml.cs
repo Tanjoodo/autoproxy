@@ -14,6 +14,19 @@ namespace AutoProxy
             InitializeComponent();
         }
 
+        public AddRule(ProxyRule SourceRule)
+        {
+            TextBoxSsid.Text = SourceRule.SSID;
+            TextBoxPort.Text = SourceRule.Proxy.Port.ToString();
+            TextBoxProxy.Text = SourceRule.Proxy.Ip;
+
+            CheckBoxEnabled.IsChecked = SourceRule.Enabled;
+            if (!SourceRule.Enabled) unchecked_enabled(null, null);
+            CheckBoxDefault.IsChecked = SourceRule.Default;
+            if (SourceRule.Default) checked_def(null, null);
+
+        }
+
         private void click_Cancel(object sender, RoutedEventArgs e)
         {
             returned_rule = null;
@@ -63,11 +76,12 @@ namespace AutoProxy
 
         private void checked_def(object sender, RoutedEventArgs e)
         {
+            TextBoxSsid.Text = "";
             TextBoxSsid.IsEnabled = false;
         }
 
         private void unchecked_def(object sender, RoutedEventArgs e)
-        {
+        {         
             TextBoxSsid.IsEnabled = true;
         }
 
@@ -78,6 +92,8 @@ namespace AutoProxy
 
         private void unchecked_enabled(object sender, RoutedEventArgs e)
         {
+            TextBoxProxy.Text = "";
+            TextBoxPort.Text = "0";
             TextBoxProxy.IsEnabled = false;
         }
     }

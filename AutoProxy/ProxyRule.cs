@@ -9,24 +9,22 @@ namespace AutoProxy
         private bool _default;
         private string _ssid;
         private ProxyHost _proxy;
-        public ProxyHost Proxy 
+        
+        public ProxyHost Proxy
         { 
             get { return _proxy; }
             set { _proxy = value; }
         }
-
         public bool Enabled
         {
             get { return _enabled; }
             set { _enabled = value; }
         }
-
         public bool Default
         {
             get { return _default; }
             set { _default = value; }
         }
-
         public string SSID
         {
             get { return _ssid; }
@@ -43,9 +41,17 @@ namespace AutoProxy
 
         public ProxyRule (string ProxyIP, int ProxyPort, string SSID)
         {
-            this.Proxy = new ProxyHost(ProxyIP, ProxyPort);
+            try
+            {
+                this.Proxy = new ProxyHost(ProxyIP, ProxyPort);
+            }
+            catch
+            {
+                throw;
+            }
+
             this.SSID = SSID;
-            this.Enabled = !Proxy.Host.StartsWith(":");
+            this.Enabled = Proxy.Host != "";
             this.Default = SSID != "";
         }
     }
