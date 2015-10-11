@@ -31,7 +31,7 @@ namespace AutoProxy
             set { _ssid = value; }
         }
 
-        public ProxyRule (ProxyHost Proxy, string SSID)
+        public ProxyRule(ProxyHost Proxy, string SSID)
         {
             this.Proxy = Proxy;
             this.SSID = SSID;
@@ -39,7 +39,7 @@ namespace AutoProxy
             this.Default = SSID != ""; //Default if no SSID specified
         }
 
-        public ProxyRule (string ProxyIP, int ProxyPort, string SSID)
+        public ProxyRule(string ProxyIP, int ProxyPort, string SSID)
         {
             try
             {
@@ -53,6 +53,19 @@ namespace AutoProxy
             this.SSID = SSID;
             this.Enabled = Proxy.Host != "";
             this.Default = SSID != "";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            
+            ProxyRule rule2 = obj as ProxyRule;
+            if (rule2 == null) return false;
+
+            return this._proxy == rule2._proxy
+                && this._ssid == rule2._ssid
+                && this._default == rule2._default
+                && this._enabled == rule2._enabled;
         }
     }
 }
