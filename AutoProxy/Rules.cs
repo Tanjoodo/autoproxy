@@ -44,7 +44,14 @@ namespace AutoProxy
             if (rule_index == -1) throw new ArgumentException("rule does not exist", "rule");
             _rules.RemoveAt(rule_index);
         }
-
+        
+        static public ProxyRule FindRule(string ssid)
+        {
+            foreach (var rule in _rules)
+                if (rule.SSID == ssid)
+                    return rule;
+            return null;
+        }
         static public void LoadRules(string path)
         {
             FileStream istream;
