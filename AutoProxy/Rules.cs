@@ -52,6 +52,7 @@ namespace AutoProxy
                     return rule;
             return null;
         }
+
         static public void LoadRules(string path)
         {
             FileStream istream;
