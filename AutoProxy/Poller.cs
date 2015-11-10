@@ -6,12 +6,26 @@ using System.Timers;
 using NativeWifi;
 namespace AutoProxy
 {
-    static class Poller
+    public class SsidChangedEventArgs : EventArgs
     {
-       
+        public string NewSsid { get; set; }
+    }
 
+    public static class Poller
+    {
         static WlanClient.WlanInterface _wlanInterface = null;
         static string _ssid = "";
+
+        static public event EventHandler SSIDChanged;
+
+        public static void OnSSIDChanged(SsidChangedEventArgs e)
+        {
+            EventHandler handler = SSIDChanged;
+            if (handler != null)
+            {
+                handler(null, e);
+            }
+        }
 
         public static void SetInterface(WlanClient.WlanInterface wlanInterface)
         {
@@ -28,7 +42,10 @@ namespace AutoProxy
         public static void StartPolling()
         {
             if (_wlanInterface != null)
+            {
                 _wlanInterface.WlanConnectionNotification += Poll;
+                Poll();
+            }
             else
                 throw new NullReferenceException();
         }
@@ -43,11 +60,17 @@ namespace AutoProxy
 
         static void Poll(Wlan.WlanNotificationData notifyData, Wlan.WlanConnectionNotificationData connNotifyData)
         {
-            Poll();
+            if (notifyData.notificationSource == Wlan.WlanNotificationSource.ACM)
+            {
+                if ((Wlan.WlanNotificationCodeAcm)notifyData.notificationCode == Wlan.WlanNotificationCodeAcm.ConnectionComplete ||
+                    (Wlan.WlanNotificationCodeAcm)notifyData.notificationCode == Wlan.WlanNotificationCodeAcm.Disconnected)
+                    Poll();
+            }
+            
         }
 
         public static void Poll()
-        {
+        {            
             try
             {
                 _ssid = new String
@@ -64,11 +87,12 @@ namespace AutoProxy
             {
                 _ssid = "";
             }
+
+            OnSSIDChanged(new SsidChangedEventArgs{NewSsid = _ssid});
         }
 
         public static string GetSsid()
         {
-            Poll();
             return _ssid;
         }
 

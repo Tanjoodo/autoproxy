@@ -10,7 +10,22 @@ namespace AutoProxy
     static class Rules
     {
         static private ObservableCollection<ProxyRule> _rules = new ObservableCollection<ProxyRule>();
-        
+        static public event EventHandler RulesChanged;
+
+        static public void Init()
+        {
+            _rules.CollectionChanged += _rules_CollectionChanged;
+        }
+
+        static void _rules_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            EventHandler handler = RulesChanged;
+            if (handler != null)
+            {
+                handler(null, EventArgs.Empty);
+            }         
+        }
+
         static public void BindListView(ref ListView listView)
         {
             listView.ItemsSource = _rules;
@@ -24,6 +39,7 @@ namespace AutoProxy
                     if (_rule.Default)
                         throw new ArgumentException("A default rule already exists.");
             _rules.Add(rule);
+            _rules_CollectionChanged(null, null);
         }
 
         static public void EditRule(ProxyRule sourceRule, ProxyRule destinationRule)

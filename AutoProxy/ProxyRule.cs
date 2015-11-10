@@ -31,12 +31,17 @@ namespace AutoProxy
             set { _ssid = value; }
         }
 
+        public static ProxyRule Disabled
+        {
+            get { return new ProxyRule("", 0, ""); }
+        }
+
         public ProxyRule(ProxyHost Proxy, string SSID)
         {
             this.Proxy = Proxy;
             this.SSID = SSID;
             this.Enabled = !Proxy.Host.StartsWith(":"); //Disabled if no proxy specified
-            this.Default = SSID != ""; //Default if no SSID specified
+            this.Default = SSID == ""; //Default if no SSID specified
         }
 
         public ProxyRule(string ProxyIP, int ProxyPort, string SSID)
@@ -52,7 +57,7 @@ namespace AutoProxy
 
             this.SSID = SSID;
             this.Enabled = Proxy.Host != "";
-            this.Default = SSID != "";
+            this.Default = SSID == "";
         }
 
         public override bool Equals(object obj)
