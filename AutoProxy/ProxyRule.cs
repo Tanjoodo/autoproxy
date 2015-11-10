@@ -40,7 +40,7 @@ namespace AutoProxy
         {
             this.Proxy = Proxy;
             this.SSID = SSID;
-            this.Enabled = !Proxy.Host.StartsWith(":"); //Disabled if no proxy specified
+            this.Enabled = Proxy.Ip != "" ; //Disabled if no proxy specified
             this.Default = SSID == ""; //Default if no SSID specified
         }
 
@@ -56,7 +56,7 @@ namespace AutoProxy
             }
 
             this.SSID = SSID;
-            this.Enabled = Proxy.Host != "";
+            this.Enabled = Proxy.Ip != "";
             this.Default = SSID == "";
         }
 

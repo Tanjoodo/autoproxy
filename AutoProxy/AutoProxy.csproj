@@ -90,6 +90,7 @@
     <Compile Include="ProxyHost.cs" />
     <Compile Include="ProxyRule.cs" />
     <Compile Include="Rules.cs" />
+    <Compile Include="Settings.cs" />
     <Page Include="AddRule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

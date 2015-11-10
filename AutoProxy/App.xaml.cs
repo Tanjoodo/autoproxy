@@ -26,7 +26,7 @@ namespace AutoProxy
             {
                 Rules.LoadRules("rules.bin");
             }
-            catch (System.IO.FileNotFoundException fileNotFoundException)
+            catch (System.IO.FileNotFoundException)
             {
                 Rules.WriteRules("rules.bin");
                 Rules.LoadRules("rules.bin");
@@ -73,7 +73,7 @@ namespace AutoProxy
             {
                 // do something here
             }
-
+            Settings.Init();
             Enforcer.Init();
             if (!e.Args.Contains("-q"))
                 mainWin.Show();
