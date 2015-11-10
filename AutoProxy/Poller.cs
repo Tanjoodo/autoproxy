@@ -6,12 +6,12 @@ using System.Timers;
 using NativeWifi;
 namespace AutoProxy
 {
-    public class SsidChangedEventArgs : EventArgs
+    class SsidChangedEventArgs : EventArgs
     {
         public string NewSsid { get; set; }
     }
 
-    public static class Poller
+    static class Poller
     {
         static WlanClient.WlanInterface _wlanInterface = null;
         static string _ssid = "";
