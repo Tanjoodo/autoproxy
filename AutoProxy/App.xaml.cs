@@ -16,29 +16,39 @@ namespace AutoProxy
     public partial class App : Application
     {
         public static TaskbarIcon _taskbarIcon = new TaskbarIcon();
+        static Window _mainWin = null;
         protected override void OnStartup(StartupEventArgs e)
         {
- 	        base.OnStartup(e);
-            _taskbarIcon.Icon = new System.Drawing.Icon("favicon.ico");
-            _taskbarIcon.TrayMouseDoubleClick += onTrayMouseDoubleClick;
-            Rules.Init();
-            try
+            base.OnStartup(e);
+
+            TaskbarIconInit();
+
+            PollerInit();
+            RulesInit();
+            Settings.Init();
+            Enforcer.Init();
+            if (!e.Args.Contains("-q"))
             {
-                Rules.LoadRules("rules.bin");
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                Rules.WriteRules("rules.bin");
-                Rules.LoadRules("rules.bin");
+                _mainWin = new MainWindow();
+                _mainWin.Show();
             }
 
+        } 
+
+        private static void onTrayMouseDoubleClick(object sender, EventArgs e)
+        {
+            _mainWin = new MainWindow();
+            _mainWin.Show();      
+        }
+        
+        private static void PollerInit()
+        {
             WlanClient client;
             WlanClient.WlanInterface inter = null;
-            Window mainWin = new MainWindow();
             try
             {
                 client = new WlanClient();
-                
+
             }
             catch
             {
@@ -73,16 +83,31 @@ namespace AutoProxy
             {
                 // do something here
             }
-            Settings.Init();
-            Enforcer.Init();
-            if (!e.Args.Contains("-q"))
-                mainWin.Show();
-
         }
 
-        private static void onTrayMouseDoubleClick(object sender, EventArgs e)
+        private static void RulesInit()
         {
-            throw new NotImplementedException();
+            Rules.Init();
+            try
+            {
+                Rules.LoadRules("rules.bin");
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                Rules.WriteRules("rules.bin");
+                Rules.LoadRules("rules.bin");
+            }
+        }
+            
+        private static void TaskbarIconInit()
+        {
+            _taskbarIcon.Icon = new System.Drawing.Icon("favicon.ico");
+            _taskbarIcon.TrayMouseDoubleClick += onTrayMouseDoubleClick;
+            _taskbarIcon.ContextMenu = new System.Windows.Controls.ContextMenu();
+            var exitMenuItem = new System.Windows.Controls.MenuItem();
+            exitMenuItem.Header = "Exit applicaton";
+            _taskbarIcon.ContextMenu.Items.Add(exitMenuItem);
+            exitMenuItem.Click += (object sender, RoutedEventArgs e) => { _taskbarIcon.Dispose(); Application.Current.Shutdown(); };
         }
     }
 }

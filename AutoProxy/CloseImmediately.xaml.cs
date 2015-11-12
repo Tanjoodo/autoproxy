@@ -19,9 +19,13 @@ namespace AutoProxy
     /// </summary>
     public partial class CloseImmediately : Window
     {
-        public CloseImmediately()
+        public CloseImmediately() // The name is now a misnomer. It does not close immediately, rather it now stays invisible.
         {
-            this.Close();
+            this.Width = 0;
+            this.Height = 0;
+            this.WindowStyle = System.Windows.WindowStyle.None;
+            this.ShowInTaskbar = false;
+            this.ShowActivated = false;
         }
     }
 }
