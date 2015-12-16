@@ -19,7 +19,7 @@ namespace AutoProxy
     /// </summary>
     public partial class CloseImmediately : Window
     {
-        public CloseImmediately() // The name is now a misnomer. It does not close immediately, rather it now stays invisible.
+        public CloseImmediately()
         {
             this.Width = 0;
             this.Height = 0;

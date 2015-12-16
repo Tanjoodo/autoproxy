@@ -16,7 +16,7 @@ namespace AutoProxy
     public partial class App : Application
     {
         public static TaskbarIcon _taskbarIcon = new TaskbarIcon();
-        static Window _mainWin = null;
+        static Window _mainWin = new MainWindow();
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -29,7 +29,6 @@ namespace AutoProxy
             Enforcer.Init();
             if (!e.Args.Contains("-q"))
             {
-                _mainWin = new MainWindow();
                 _mainWin.Show();
             }
 
