@@ -1,4 +1,0 @@
-﻿<Window x:Class="AutoProxy.CloseImmediately"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CloseImmediately" Height="0" Width="0"/>

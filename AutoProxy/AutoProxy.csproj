@@ -79,9 +79,6 @@
     <Compile Include="AddRule.xaml.cs">
       <DependentUpon>AddRule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CloseImmediately.xaml.cs">
-      <DependentUpon>CloseImmediately.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Enforcer.cs" />
     <Compile Include="Interfaces.xaml.cs">
       <DependentUpon>Interfaces.xaml</DependentUpon>
@@ -92,10 +89,6 @@
     <Compile Include="Rules.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="AddRule.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CloseImmediately.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
